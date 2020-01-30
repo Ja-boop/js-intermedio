@@ -41,3 +41,16 @@ BODY: vacío
 respuesta: {success: true}
 
 
+function obtenerListaMonedas() {
+  const URL = "https://api.exchangeratesapi.io/latest";
+  fetch(URL)
+    .then(res => res.json())
+    .then(info => {
+      Object.keys(info.rates).forEach(nombreMoneda => {
+          $('#listado-monedas').append(new Option(nombreMoneda))
+          }
+        })
+      })
+    })
+    .catch(error => crearNotificacion("error", error));
+};
