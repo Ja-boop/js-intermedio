@@ -8,16 +8,19 @@ obtenerListaMoneda()
 
 $botonIngresar.click( ingresarDatos => {
 
-    $("ul").html("");
+    noRepetirLista();
 
-    let latestURL = "https://api.exchangeratesapi.io/"
+    let URLbase = "https://api.exchangeratesapi.io/"
     
-    let fecha = document.querySelector('#ingresar-fecha').value;
+    let valorFecha = document.querySelector('#ingresar-fecha').value;
     
-    let newURL = new URL(fecha, latestURL);
+    let seleccionarMoneda = document.querySelector("select");
 
-   
+    let valorMonedaSeleccionada = seleccionarMoneda.options[seleccionarMoneda.selectedIndex];
 
+    console.log(valorMonedaSeleccionada.text);
+
+    let newURL = new URL(valorFecha + "?base=" + valorMonedaSeleccionada.text, URLbase);
     
     fetch(newURL)
     .then(respuesta => respuesta.json())
@@ -33,7 +36,9 @@ $botonIngresar.click( ingresarDatos => {
 
 
     })
-
+    .catch((error) => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
     
     
     ingresarDatos.preventDefault();
@@ -56,5 +61,7 @@ function obtenerListaMoneda(){
     })
 }
 
-
+function noRepetirLista(){
+    $("ul").html("");
+}
 
